@@ -105,10 +105,8 @@ python -m streamlit run app.py
 Set your OpenAI API key:
 
 ```
-export OPENAI_API_KEY="your_api_key_here"
+export OPENAI_API_KEY="api_key_here"
 ```
-
-⚠️ Do NOT include your API key in the repository.
 
 ---
 
