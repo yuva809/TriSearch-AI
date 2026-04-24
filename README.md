@@ -6,7 +6,7 @@ An AI-powered hybrid search engine that combines **semantic search + keyword mat
 
 ## 🚀 Live Demo
 
-👉 (Add your Streamlit link here after deployment)
+👉 (https://trisearch-ai.streamlit.app/)
 
 ---
 
