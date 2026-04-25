@@ -1,7 +1,10 @@
 """
 app.py — Trisearch AI  |  Polished Streamlit UI
-Fix: Example query buttons now work correctly.
-     Session state key pattern used — no value= conflict with key=.
+Fix: Streamlit Cloud raises StreamlitAPIException when you write to a
+     widget's own key (query_input) from outside that widget after render.
+     Solution: buttons write to a SEPARATE key "pending_query", the
+     text_input uses no key at all and reads its default from pending_query.
+     This pattern works on all Streamlit versions including Cloud.
 
 Author: Yuvanesh Raju
 """
@@ -18,28 +21,23 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
-# ── Custom CSS ────────────────────────────────────────────────────
+# ── CSS ───────────────────────────────────────────────────────────
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap');
 
 *, *::before, *::after { box-sizing: border-box; }
-
 html, body, [data-testid="stAppViewContainer"] {
-    background: #09090f !important;
-    color: #e8e6f0 !important;
+    background: #09090f !important; color: #e8e6f0 !important;
     font-family: 'DM Sans', sans-serif !important;
 }
 [data-testid="stAppViewContainer"] { background: #09090f !important; }
 [data-testid="block-container"] {
-    padding: 2rem 3rem !important;
-    max-width: 900px !important;
-    margin: 0 auto !important;
+    padding: 2rem 3rem !important; max-width: 900px !important; margin: 0 auto !important;
 }
 #MainMenu, footer, header { visibility: hidden; }
 [data-testid="stToolbar"] { display: none; }
 
-/* ── Header ── */
 .trisearch-header { text-align: center; padding: 2.5rem 0 1.5rem; }
 .trisearch-logo-mark {
     display: inline-flex; align-items: center; justify-content: center;
@@ -53,10 +51,8 @@ html, body, [data-testid="stAppViewContainer"] {
     font-size: 2.6rem !important; font-weight: 800 !important;
     letter-spacing: -0.03em !important;
     background: linear-gradient(135deg, #ffffff 30%, #a78bfa 100%);
-    -webkit-background-clip: text !important;
-    -webkit-text-fill-color: transparent !important;
-    background-clip: text !important;
-    margin: 0 0 0.4rem !important; line-height: 1.1 !important;
+    -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important;
+    background-clip: text !important; margin: 0 0 0.4rem !important; line-height: 1.1 !important;
 }
 .trisearch-sub {
     font-size: 0.95rem !important; color: #6b6882 !important;
@@ -70,8 +66,6 @@ html, body, [data-testid="stAppViewContainer"] {
     padding: 0.3rem 0.75rem; border-radius: 999px; border: 1px solid #2a2740;
     color: #8b80b0; background: #13111f;
 }
-
-/* ── Search input ── */
 .stTextInput > div > div > input {
     background: #13111f !important; border: 1.5px solid #2a2740 !important;
     border-radius: 14px !important; color: #e8e6f0 !important;
@@ -86,7 +80,6 @@ html, body, [data-testid="stAppViewContainer"] {
 .stTextInput > div > div > input::placeholder { color: #3d3857 !important; }
 .stTextInput label { display: none !important; }
 
-/* ── Answer card ── */
 .answer-card {
     background: #13111f; border: 1px solid #2a2740; border-radius: 18px;
     padding: 1.8rem 2rem; margin: 1.8rem 0 1.2rem; position: relative; overflow: hidden;
@@ -99,11 +92,8 @@ html, body, [data-testid="stAppViewContainer"] {
     font-family: 'Syne', sans-serif; font-size: 0.72rem; font-weight: 700;
     letter-spacing: 0.1em; text-transform: uppercase; color: #7c5cfc; margin-bottom: 0.85rem;
 }
-.answer-text {
-    font-size: 1rem; line-height: 1.75; color: #cbc8e0; font-weight: 300;
-}
+.answer-text { font-size: 1rem; line-height: 1.75; color: #cbc8e0; font-weight: 300; }
 
-/* ── Sources ── */
 .sources-label {
     font-family: 'Syne', sans-serif; font-size: 0.72rem; font-weight: 700;
     letter-spacing: 0.1em; text-transform: uppercase; color: #4d4870; margin: 1.8rem 0 0.8rem;
@@ -141,15 +131,11 @@ html, body, [data-testid="stAppViewContainer"] {
     border-top: 1px solid #1a1828; margin-top: 0.5rem; padding-top: 0.6rem;
     display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
 }
-
-/* ── Error ── */
 .error-card {
     background: rgba(239,68,68,0.06); border: 1px solid rgba(239,68,68,0.2);
     border-radius: 12px; padding: 1.2rem 1.5rem; margin-top: 1rem;
     color: #f87171; font-size: 0.9rem; line-height: 1.6;
 }
-
-/* ── Example buttons ── */
 .stButton > button {
     background: #0e0d1a !important; border: 1px dashed #2a2740 !important;
     border-radius: 10px !important; color: #4a4680 !important;
@@ -187,14 +173,12 @@ _warm_index()
 
 
 # ── Session state init ────────────────────────────────────────────
-# FIX: use a separate key "query_input" for the text_input widget
-# and "active_query" for what we actually run retrieval on.
-# Buttons write to st.session_state["query_input"] directly,
-# which pre-fills the widget on the next rerun without any key conflict.
-if "query_input" not in st.session_state:
-    st.session_state["query_input"] = ""
-if "active_query" not in st.session_state:
-    st.session_state["active_query"] = ""
+# "pending_query" is written by buttons BEFORE the text_input renders.
+# The text_input reads it as its default value.
+# This avoids the StreamlitAPIException that happens when you write to
+# a widget's own key after it has already been rendered on the page.
+if "pending_query" not in st.session_state:
+    st.session_state["pending_query"] = ""
 
 
 # ── Header ────────────────────────────────────────────────────────
@@ -213,32 +197,11 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
-# ── Search input ──────────────────────────────────────────────────
-# KEY FIX: text_input reads/writes st.session_state["query_input"] automatically
-# because we set key="query_input". No value= param needed — no conflict.
-st.text_input(
-    label="query",
-    placeholder="e.g.  What does sc_brand_awareness measure?",
-    key="query_input",
-)
+# ── STEP 1: Render example buttons FIRST (before the text input) ──
+# Buttons must be rendered before the text_input so that when a button
+# is clicked, pending_query is set BEFORE the input widget reads it.
+# We store button state here and render the grid below only if no query.
 
-# The active query is whatever is currently in the input box
-query = st.session_state["query_input"].strip()
-
-
-# ── Helpers ───────────────────────────────────────────────────────
-def _badge(source: str) -> str:
-    s = source.lower()
-    if s.endswith(".pdf"):   return '<span class="source-badge badge-pdf">PDF</span>'
-    if s.endswith(".pptx"):  return '<span class="source-badge badge-pptx">PPTX</span>'
-    if s.endswith(".docx"):  return '<span class="source-badge badge-docx">DOCX</span>'
-    if s.endswith(".eml"):   return '<span class="source-badge badge-eml">EMAIL</span>'
-    if "glossary" in s or s.endswith(".json"):
-                             return '<span class="source-badge badge-glossary">GLOSSARY</span>'
-    return                          '<span class="source-badge badge-other">DOC</span>'
-
-
-# ── Example queries ───────────────────────────────────────────────
 BROAD_QUERIES = [
     "What was the main finding of the NovaSkinX study?",
     "Who are the probable trialists and what do they look like?",
@@ -256,7 +219,38 @@ NARROW_QUERIES = [
     "What is total_count?",
 ]
 
+
+# ── STEP 2: Text input reads pending_query as its default ─────────
+# Using value= here is safe because we are NOT also using key= on
+# the same widget. No key conflict possible.
+typed = st.text_input(
+    label="query",
+    placeholder="e.g.  What does sc_brand_awareness measure?",
+    value=st.session_state["pending_query"],
+)
+
+# After the widget renders, clear pending so it doesn't persist
+# across reruns when the user clears the box manually
+if typed != st.session_state["pending_query"]:
+    st.session_state["pending_query"] = ""
+
+query = typed.strip()
+
+
+# ── Helpers ───────────────────────────────────────────────────────
+def _badge(source: str) -> str:
+    s = source.lower()
+    if s.endswith(".pdf"):   return '<span class="source-badge badge-pdf">PDF</span>'
+    if s.endswith(".pptx"):  return '<span class="source-badge badge-pptx">PPTX</span>'
+    if s.endswith(".docx"):  return '<span class="source-badge badge-docx">DOCX</span>'
+    if s.endswith(".eml"):   return '<span class="source-badge badge-eml">EMAIL</span>'
+    if "glossary" in s or s.endswith(".json"):
+                             return '<span class="source-badge badge-glossary">GLOSSARY</span>'
+    return                          '<span class="source-badge badge-other">DOC</span>'
+
+
 def _render_examples():
+    """Render clickable example query buttons in a 2-column grid."""
     st.markdown(
         '<div class="empty-hint">'
         '<div class="empty-icon">⟡</div>'
@@ -268,17 +262,17 @@ def _render_examples():
     st.markdown('<div class="section-label">◈ Broad — research questions</div>', unsafe_allow_html=True)
     cols = st.columns(2)
     for i, q in enumerate(BROAD_QUERIES):
-        # FIX: write directly into session_state["query_input"] — same key as the
-        # text_input widget — then rerun. Streamlit picks it up as the new input value.
+        # FIX: write to pending_query (not the widget key) then rerun.
+        # On the next run the text_input reads pending_query as its value=.
         if cols[i % 2].button(q, key=f"broad_{i}"):
-            st.session_state["query_input"] = q
+            st.session_state["pending_query"] = q
             st.rerun()
 
     st.markdown('<div class="section-label">◇ Narrow — variable lookups</div>', unsafe_allow_html=True)
     cols = st.columns(2)
     for i, q in enumerate(NARROW_QUERIES):
         if cols[i % 2].button(q, key=f"narrow_{i}"):
-            st.session_state["query_input"] = q
+            st.session_state["pending_query"] = q
             st.rerun()
 
 
@@ -321,7 +315,7 @@ if query:
     if results:
         st.markdown(
             f'<div class="sources-label">'
-            f'↳ {len(results)} source{"s" if len(results)!=1 else ""} retrieved'
+            f'↳ {len(results)} source{"s" if len(results) != 1 else ""} retrieved'
             f'</div>',
             unsafe_allow_html=True,
         )
@@ -330,7 +324,7 @@ if query:
             score    = r.get("score", 0)
             badge    = _badge(r["source"])
             meta_str = f'<span class="source-meta">{meta}</span>' if meta else ""
-            safe_txt = r["text"].replace("<","&lt;").replace(">","&gt;")
+            safe_txt = r["text"].replace("<", "&lt;").replace(">", "&gt;")
             st.markdown(
                 f'<div class="source-card">'
                 f'<div class="source-header">{badge}'
