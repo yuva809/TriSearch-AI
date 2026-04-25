@@ -1,0 +1,39 @@
+From: Tobias W. <tobias.w@example.com>
+To: Anna H. <anna.h@example.com>
+Cc: Marcus R. <marcus.r@example.com>
+Date: Fri, 28 Apr 2023 17:05:00 +0100
+Subject: Re: Fieldwork Complete — Key Variable Notes
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+DISCLAIMER: This is a fully synthetic demo email. No real company, individual, or dataset is represented.
+
+---
+
+Hi both,
+
+Fieldwork closed yesterday. 1,180 completes, clean data file exported this morning.
+
+A few notes on variables that came up during QA:
+
+1. skincare_routine_enjoyment: measured on a 5-point scale from 1 ("dislikes skincare routines") to 5 ("always_cleanses_morning_and_night"). Distribution skews positive — peak at 4 ("enjoys routine but skips occasionally").
+
+2. sc_brand_awareness: binary (yes/no) per brand. Captures aided awareness — "Have you heard of [brand]?" Shown after the brand name is displayed, not spontaneous recall.
+
+3. sc_brand_consideration: also binary. "Would you consider buying [brand]?" — strictly applied as a post-awareness filter only.
+
+4. n_skincare_steps_per_day: integer, self-reported. Range 0-10. Median is 3. Heavier users (5+ steps) skew strongly female and in the 25-34 age group.
+
+5. The channel variable captures where respondents last purchased skincare products. Top channels in this demo dataset: drugstore_chain_a (36%), drugstore_chain_b (21%), online (19%), pharmacy (12%), premium_beauty_retailer (7%).
+
+6. Gender split: 61% female, 37% male, 2% non-binary or prefer not to say. Age distribution peaks at 25-34 (27%) and 35-44 (23%).
+
+7. Income brackets run from below_20000 up to 100000_or_more. The 35000_to_49999 bracket has the largest share at 29%.
+
+One data quality note: 14 respondents had missing data on annual_hh_income. These were coded as "prefer_not_to_answer" rather than dropped. This affects sample_base for income-filtered queries.
+
+Data file is on the shared demo drive at /shared/data/demo/. Let me know if you need any re-cuts.
+
+Tobias
+DemoAnalytics — Research & Insights Division
+tobias.w@example.com

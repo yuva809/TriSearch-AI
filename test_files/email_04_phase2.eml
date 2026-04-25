@@ -1,0 +1,37 @@
+From: Anna H. <anna.h@example.com>
+To: Marcus R. <marcus.r@example.com>
+Date: Thu, 15 Jun 2023 08:20:00 +0100
+Subject: Re: Phase 1 Analysis — Competition & Spend Questions
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+DISCLAIMER: This is a fully synthetic demo email. No real company, individual, or dataset is represented.
+
+---
+
+Marcus,
+
+Answers inline:
+
+1. Correct. preference_avg is the mean of 0-10 ratings across all respondents in that segment. total_sample_preference_avg = 6.6 for Face Serum means the mean across all 1,180 demo respondents.
+
+2. Share of wallet = proportion of total personal care spending allocated to a specific skincare category. probable_trialists_share_of_wallet_index = 143 means probable trialists dedicate 43% more of their personal care budget to skincare than the average respondent. The raw _share version gives the absolute proportion (e.g. 0.36 = 36% of their beauty spend goes to skincare).
+
+3. Correct — the brand placeholders each represent a positioning archetype:
+   - brand_a_mass_market = high-awareness, wide-distribution drugstore brand
+   - brand_b_derma = pharmacy-positioned, clinically oriented brand
+   - brand_c_ingredient_led = affordable, science-led DTC brand popular with younger consumers
+   - brand_d_natural = natural/organic positioning, health-conscious segment
+   None of these refer to any real brand.
+
+4. Exactly right. total_sample_need_share = "% who rate this attribute as important (score 4 or 5 on a 5-point scale)". total_sample_novaskinx_performance_share = "% who agree NovaSkinX delivers on this attribute". The gap between need_share and novaskinx_performance_share is the opportunity gap — where consumer demand exceeds brand delivery.
+
+5. marketing_dimension = category of marketing tactic being evaluated (e.g. "packaging design", "influencer content", "in-store display", "dermatologist endorsement", "price promotion"). marketing_type further classifies whether the element is a "barrier" or a "driver" to purchase or retention.
+
+6. evaluation_stage = yes, the customer journey stage. Values: "awareness", "consideration", "trial", "repeat_purchase", "loyalty". Each row in the barriers table is one combination of evaluation_stage x marketing_dimension x marketing_value.
+
+Extra note — the variable appealing_texture_and_feel in the triggers table refers to consumers who want skincare to absorb quickly and feel non-greasy on application. This was the top-rated functional need in the demo dataset among 25-44 year olds.
+
+Anna
+DemoAnalytics — Research & Insights Division
+anna.h@example.com

@@ -1,0 +1,389 @@
+{
+  "_disclaimer": "This dataset is fully synthetic and created for demonstration purposes only. No real company, brand, or individual is represented. All names, figures, and variable values are fictitious.",
+
+  "SHEET_DEFINITIONS": {
+    "customer profile": {
+      "definition": "Sociodemographics, household structure, digital usage, purchasing behaviour, brand perceptions, skincare routines, and trial/retention differentiation across customer segments. Contains demographic dimensions: gender, agegroups, annual_hh_income, employment_status, marital_status, children_in_hh, region, education_level, living_area. Segmented by purchase intent: probable trialists, non-probable, buy regularly, buy occasionally, try once.",
+      "use_for": [
+        "consumer profiling",
+        "demographic segmentation",
+        "target group analysis",
+        "brand awareness by demographics",
+        "purchase intent segmentation",
+        "skincare habits and digital media behaviour"
+      ]
+    },
+    "spend": {
+      "definition": "Monthly spending levels (EUR) and share-of-wallet allocation across personal care categories (face wash, moisturiser, serum, SPF, body lotion, lip care, eye cream, hair care, etc.), segmented by purchase intent. Shows average spend per category and what percentage of total personal care budget each category represents, indexed to total sample baseline.",
+      "use_for": [
+        "spending analysis",
+        "share-of-wallet calculation",
+        "category spend comparison",
+        "budget allocation across personal care",
+        "purchase intent spend patterns",
+        "category index analysis",
+        "spending patterns",
+        "personal care spend",
+        "wallet share",
+        "monthly spend",
+        "how much do people spend",
+        "skincare spend",
+        "category spending"
+      ]
+    },
+    "competition": {
+      "definition": "Preference ratings (average scores on a 0-10 scale) for competing personal care categories across purchase intent segments (probable trialists, non-probable, buy regularly, buy occasionally, try once). Measures how favourably each skincare category or competitor type is viewed relative to alternatives, indexed to total sample baseline.",
+      "use_for": [
+        "competitive analysis",
+        "category preference comparison",
+        "competitive positioning",
+        "preference scores by segment",
+        "alternative skincare brand appeal",
+        "index-based competitive benchmarking",
+        "competitive landscape",
+        "skincare preferences",
+        "skincare competitors"
+      ]
+    },
+    "triggers for purchase": {
+      "definition": "Dual measurement of (1) need importance — what percentage rate as important — and (2) perceived NovaSkinX performance — what percentage rate NovaSkinX highly on this attribute — for key purchase drivers such as sustainable packaging, no harmful chemicals, natural ingredients, skin effectiveness, convenience, dermatologist-tested, cruelty-free, and fragrance-free. Shows what matters most to customers and how well NovaSkinX delivers on those needs, segmented by purchase intent and indexed to baseline.",
+      "use_for": [
+        "purchase motivation analysis",
+        "needs vs. performance gap analysis",
+        "attribute importance ranking",
+        "NovaSkinX performance evaluation",
+        "functional and emotional driver identification",
+        "segment-specific trigger analysis"
+      ]
+    },
+    "main barriers and retention": {
+      "definition": "Marketing barriers and retention metrics across the customer evaluation journey, tracking barriers and drivers at different stages (need evaluation, brand consideration, purchase decision, retention) by purchase intent segments. Shows what prevents or enables customer acquisition and retention for NovaSkinX skincare products, indexed to baseline.",
+      "use_for": [
+        "barrier identification",
+        "retention factor analysis",
+        "evaluation stage funnel analysis",
+        "objection handling insights",
+        "marketing optimisation by stage",
+        "segment-specific barrier and driver analysis"
+      ]
+    }
+  },
+
+  "V": {
+    "attribute_type": {
+      "definition": "Top-level classification dimension. Defines the context in which segmentation or filtering occurs.",
+      "type": "dimension",
+      "table": 0
+    },
+    "Skincare Channels P1M (among buyers)": {
+      "definition": "Channels or purchase locations used by buyers to purchase skincare products in the past month.",
+      "type": "dimension",
+      "table": 0
+    },
+    "NovaSkinX Concept: Usage frequency": {
+      "definition": "Indicates how often consumers use or would use NovaSkinX products (e.g. daily, several times a week, weekly).",
+      "type": "dimension",
+      "table": 0
+    },
+    "agegroups": {
+      "definition": "Age group of respondent, split into bands: 18-24, 25-34, 35-44, 45-54, 55-64, 65+.",
+      "type": "dimension",
+      "table": 0
+    },
+    "education_level": {
+      "definition": "Highest completed education level of respondent.",
+      "type": "dimension",
+      "table": 0
+    },
+    "sc_brand_awareness": {
+      "definition": "Indicates whether respondents recognise or recall a skincare brand when prompted (aided awareness). Binary yes/no per brand — captured via 'Have you heard of [brand]?' after the brand name is shown. Not spontaneous recall.",
+      "type": "dimension",
+      "table": 0
+    },
+    "sc_brand_consideration": {
+      "definition": "Indicates whether respondents would consider purchasing the skincare brand in the future (brand consideration stage). Binary yes/no, asked only to respondents who are already aware of the brand.",
+      "type": "dimension",
+      "table": 0
+    },
+    "sc_brand_purchase_p1m": {
+      "definition": "Indicates whether respondents purchased the skincare brand within the past month (recent purchase behaviour). Binary flag used to identify active buyers.",
+      "type": "dimension",
+      "table": 0
+    },
+    "gender": {
+      "definition": "Self-reported gender of the respondent. Categories: female, male, non-binary/other, prefer not to say.",
+      "type": "dimension",
+      "table": 0
+    },
+    "media_used_at_least_weekly": {
+      "definition": "Digital and social media platforms used by the respondent at least once per week for information or entertainment.",
+      "type": "dimension",
+      "table": 0
+    },
+    "n_skincare_steps_per_day": {
+      "definition": "Number of skincare steps a respondent performs daily. Self-reported integer, range 0-10. Median is 3. Heavy users (5+ steps) skew female and in the 25-34 age group.",
+      "type": "dimension",
+      "table": 0
+    },
+    "region": {
+      "definition": "Region of residence of the respondent. Categories used in this demo: North, South, East, West, Central.",
+      "type": "dimension",
+      "table": 0
+    },
+    "novaskinx_concept_needs_performance": {
+      "definition": "Assessment of how well the NovaSkinX brand concept is perceived to meet specific consumer skincare needs, as captured in the survey.",
+      "type": "dimension",
+      "table": 0
+    },
+    "18_to_24": {
+      "definition": "Age group: 18-24 years.",
+      "type": "dimension",
+      "table": 0
+    },
+    "25_to_34": {
+      "definition": "Age group: 25-34 years.",
+      "type": "dimension",
+      "table": 0
+    },
+    "35_to_44": {
+      "definition": "Age group: 35-44 years.",
+      "type": "dimension",
+      "table": 0
+    },
+    "20000_to_34999": {
+      "definition": "Annual household income range from EUR 20,000 to EUR 34,999.",
+      "type": "dimension",
+      "table": 0
+    },
+    "35000_to_49999": {
+      "definition": "Annual household income range from EUR 35,000 to EUR 49,999.",
+      "type": "dimension",
+      "table": 0
+    },
+    "50000_to_74999": {
+      "definition": "Annual household income range from EUR 50,000 to EUR 74,999.",
+      "type": "dimension",
+      "table": 0
+    },
+    "drugstore_chain_a": {
+      "definition": "Generic drugstore chain A — a large mass-market personal care retailer. Used as a fictional proxy for a typical drugstore distribution channel. Not based on any real retailer.",
+      "type": "dimension",
+      "table": 0
+    },
+    "drugstore_chain_b": {
+      "definition": "Generic drugstore chain B — a second major mass-market personal care retailer. Fictional proxy only.",
+      "type": "dimension",
+      "table": 0
+    },
+    "premium_beauty_retailer": {
+      "definition": "Generic premium beauty retailer — represents the selective/prestige distribution channel for higher-end skincare brands. Fictional proxy.",
+      "type": "dimension",
+      "table": 0
+    },
+    "brand_a_mass_market": {
+      "definition": "Fictional mass-market skincare brand A. Represents a high-awareness, wide-distribution brand dominant in the drugstore channel. Not based on any real brand.",
+      "type": "dimension",
+      "table": 0
+    },
+    "brand_b_derma": {
+      "definition": "Fictional dermatological skincare brand B. Represents a pharmacy-positioned, clinically-oriented brand targeting sensitive skin. Fictional proxy only.",
+      "type": "dimension",
+      "table": 0
+    },
+    "brand_c_ingredient_led": {
+      "definition": "Fictional ingredient-focused direct-to-consumer skincare brand C. Represents the affordable, science-led formulation positioning popular with younger consumers. Fictional proxy only.",
+      "type": "dimension",
+      "table": 0
+    },
+    "brand_d_natural": {
+      "definition": "Fictional natural and organic skincare brand D. Represents the natural/organic positioning segment popular with health-conscious consumers. Fictional proxy only.",
+      "type": "dimension",
+      "table": 0
+    },
+    "always_cleanses_morning_and_night": {
+      "definition": "Response value: respondent always cleanses skin both in the morning and at night.",
+      "type": "dimension",
+      "table": 0
+    },
+    "appealing_texture_and_feel": {
+      "definition": "Attribute: product has a pleasant texture and feel on skin — absorbs quickly and is non-greasy.",
+      "type": "dimension",
+      "table": 0
+    },
+    "no_harmful_chemicals": {
+      "definition": "Attribute: product is free from harmful or controversial chemicals (e.g. parabens, sulphates, synthetic fragrances).",
+      "type": "dimension",
+      "table": 0
+    },
+    "cruelty_free": {
+      "definition": "Attribute: product and brand have not been tested on animals.",
+      "type": "dimension",
+      "table": 0
+    },
+    "dermatologist_tested": {
+      "definition": "Attribute: product has been tested and approved or recommended by dermatologists.",
+      "type": "dimension",
+      "table": 0
+    },
+    "sustainable_packaging": {
+      "definition": "Attribute: product uses packaging that is recyclable, refillable, or made from recycled materials.",
+      "type": "dimension",
+      "table": 0
+    },
+    "fragrance_free": {
+      "definition": "Attribute: product contains no added fragrances — important for sensitive skin types.",
+      "type": "dimension",
+      "table": 0
+    },
+    "instagram": {
+      "definition": "Social media platform: Instagram. Flags respondents who use Instagram at least weekly.",
+      "type": "dimension",
+      "table": 0
+    },
+    "tiktok": {
+      "definition": "Social media platform: TikTok. Flags respondents using TikTok at least weekly — relevant for identifying younger skincare-engaged audiences.",
+      "type": "dimension",
+      "table": 0
+    },
+    "youtube": {
+      "definition": "Social media platform: YouTube. Identifies respondents who consume YouTube content weekly — relevant for beauty tutorial and review audiences.",
+      "type": "dimension",
+      "table": 0
+    },
+    "total_sample_sample_size": {
+      "definition": "Total survey sample size (n=1,180). Fully synthetic demo figure.",
+      "type": "metric",
+      "table": 0
+    },
+    "total_count": {
+      "definition": "Total number of respondents in the synthetic demo survey (n=1,180). All figures are fabricated for demonstration purposes only.",
+      "type": "metric",
+      "table": 0
+    },
+    "total_share": {
+      "definition": "Share of the total sample matching the evaluated condition, expressed as a proportion (0 to 1).",
+      "type": "metric",
+      "table": 0
+    },
+    "buy_regularly_count": {
+      "definition": "Count of regular skincare buyers matching the evaluated condition.",
+      "type": "metric",
+      "table": 0
+    },
+    "buy_regularly_share": {
+      "definition": "Share of regular skincare buyers within the evaluated item or category.",
+      "type": "metric",
+      "table": 0
+    },
+    "probable_trialists": {
+      "definition": "Respondents who indicated they would definitely or would probably buy NovaSkinX after seeing the brand concept. Core target segment for acquisition analysis.",
+      "type": "dimension",
+      "table": 0
+    },
+    "non_probable": {
+      "definition": "Respondents who would not buy NovaSkinX after concept exposure. Forms the non-target baseline.",
+      "type": "dimension",
+      "table": 0
+    },
+    "buy_occasionally_count": {
+      "definition": "Count of occasional skincare buyers matching the evaluated condition.",
+      "type": "metric",
+      "table": 0
+    },
+    "buy_occasionally_share": {
+      "definition": "Share of occasional skincare buyers within the evaluated item or category.",
+      "type": "metric",
+      "table": 0
+    },
+    "buy_occasionally_index": {
+      "definition": "Index level for occasional skincare buyers (100 = total sample baseline).",
+      "type": "metric",
+      "table": 0
+    },
+    "try_once_share": {
+      "definition": "Share of skincare try-once consumers in the total sample.",
+      "type": "metric",
+      "table": 0
+    },
+    "Face Wash / Cleanser": {
+      "definition": "Skincare category: face wash or cleanser products used to remove makeup, dirt, and excess oil.",
+      "type": "dimension",
+      "table": 0
+    },
+    "Facial Moisturiser": {
+      "definition": "Skincare category: day or night moisturising creams and lotions applied to the face.",
+      "type": "dimension",
+      "table": 0
+    },
+    "Face Serum": {
+      "definition": "Skincare category: concentrated active-ingredient serums targeting specific concerns such as hydration, brightening, or anti-ageing.",
+      "type": "dimension",
+      "table": 0
+    },
+    "SPF / Sunscreen": {
+      "definition": "Skincare category: sun protection products for the face and body with SPF ratings.",
+      "type": "dimension",
+      "table": 0
+    },
+    "Eye Cream": {
+      "definition": "Skincare category: targeted eye area treatments for puffiness, dark circles, and fine lines.",
+      "type": "dimension",
+      "table": 0
+    },
+    "total_sample_spend_sample_size": {
+      "definition": "Number of respondents in the total sample used to compute skincare category spending. Demo figure.",
+      "type": "metric",
+      "table": 1
+    },
+    "total_sample_spend_index": {
+      "definition": "Spending level in the total sample (index, 100 = benchmark).",
+      "type": "metric",
+      "table": 1
+    },
+    "probable_trialists_spend_avg": {
+      "definition": "Average monthly skincare category spend (EUR) among respondents who would buy or try NovaSkinX. Demo value: EUR 34.7.",
+      "type": "metric",
+      "table": 1
+    },
+    "probable_trialists_share_of_wallet_index": {
+      "definition": "Spending share level among respondents who would buy or try NovaSkinX (index, 100 = total sample). Demo value: 143.",
+      "type": "metric",
+      "table": 1
+    },
+    "non_probable_spend_index": {
+      "definition": "Spending level among respondents who would NOT buy NovaSkinX (index, 100 = total sample).",
+      "type": "metric",
+      "table": 1
+    },
+    "evaluation_stage": {
+      "definition": "Categorical variable indicating the customer journey stage being evaluated. Values: awareness, consideration, trial, repeat_purchase, loyalty. Each row in the barriers table is one combination of evaluation_stage x marketing_dimension x marketing_value.",
+      "type": "dimension",
+      "table": 4
+    },
+    "marketing_dimension": {
+      "definition": "The category of marketing tactic being evaluated in the barriers and retention table (e.g. packaging, in-store display, influencer marketing, price promotion, dermatologist endorsement).",
+      "type": "dimension",
+      "table": 4
+    },
+    "marketing_type": {
+      "definition": "Classifies whether the evaluated marketing element is a barrier (prevents purchase) or a driver (enables purchase or retention).",
+      "type": "dimension",
+      "table": 4
+    },
+    "sample_share": {
+      "definition": "Share of respondents within the evaluated item or category.",
+      "type": "metric",
+      "table": 4
+    },
+    "probable_trialists_share": {
+      "definition": "Share of respondents who would buy or try NovaSkinX within the evaluated item or category.",
+      "type": "metric",
+      "table": 4
+    },
+    "non_probable_trialists_share": {
+      "definition": "Share of respondents who would NOT buy NovaSkinX within the evaluated item or category.",
+      "type": "metric",
+      "table": 4
+    }
+  }
+}

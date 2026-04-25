@@ -1,0 +1,32 @@
+From: Marcus R. <marcus.r@example.com>
+To: Anna H. <anna.h@example.com>
+Date: Wed, 14 Jun 2023 10:45:00 +0100
+Subject: Re: Phase 1 Analysis — Competition & Spend Questions
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+DISCLAIMER: This is a fully synthetic demo email. No real company, individual, or dataset is represented.
+
+---
+
+Anna,
+
+Looking at the competition table — a few clarifications needed for the internal deck.
+
+1. The preference scores (e.g. total_sample_preference_avg): these are the 0-10 ratings per skincare category, correct? So Face Serum at 6.6 means the average respondent rates serums 6.6 out of 10 in preference?
+
+2. What exactly does "share of wallet" mean in this context? I see probable_trialists_share_of_wallet_index at 143 — does this mean probable trialists allocate 43% more of their personal care budget to skincare than the average respondent?
+
+3. The competition data uses fictional brand placeholders (brand_a_mass_market, brand_b_derma, etc.) — is the interpretation that each represents a different channel or positioning archetype?
+
+4. For the triggers table: the _need_share columns (e.g. total_sample_need_share) — this is "% of respondents who rated this attribute as important"? And _novaskinx_performance_share is "% who think NovaSkinX delivers on this attribute"?
+
+5. What does marketing_dimension represent in the barriers table? Is this the type of marketing tactic (e.g. packaging, social media, influencer)?
+
+6. evaluation_stage in the barriers data — is this the funnel stage running from awareness through to loyalty?
+
+Need this locked before the strategy workshop.
+
+Marcus
+NovaSkinX — Strategy & Consumer Insights
+marcus.r@example.com

@@ -1,0 +1,44 @@
+From: Marcus R. <marcus.r@example.com>
+To: Anna H. <anna.h@example.com>
+Cc: Tobias W. <tobias.w@example.com>
+Date: Mon, 14 Aug 2023 13:50:00 +0100
+Subject: Re: Pre-Workshop Data Checks — Segment Sizes & Spend
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+DISCLAIMER: This is a fully synthetic demo email. No real company, individual, or dataset is represented. All figures below are fabricated for demonstration purposes.
+
+---
+
+Anna,
+
+Final checks before the strategy workshop. Can you confirm these demo numbers?
+
+SEGMENT SIZES (from probable_trialists_n, buy_regularly_n, etc.):
+- Probable trialists: n=247 (21% of total sample)
+- Non-probable: n=933 (79%)
+- Buy regularly: n=359 (30% of total)
+- Buy occasionally: n=472 (40%)
+- Try once: n=296 (25%)
+
+SPEND DATA (buy_regularly_spend_avg etc.) — all figures are fabricated demo values:
+- Regular buyers: EUR 36.2/month average (index 158)
+- Probable trialists: EUR 34.7/month (index 143)
+- Occasional buyers: EUR 21.4/month (index 88)
+- Non-probable: EUR 16.9/month (index 70)
+- Try once: EUR 13.6/month (index 56)
+
+Committed segments spend roughly 2.5x the less-engaged segments on skincare per month.
+
+ROUTINE DEPTH: the n_skincare_steps_per_day variable. Can you confirm the split between 1-2 step (basic), 3-4 step (standard), and 5+ step (enthusiast)? We expect 5+ to over-index among probable trialists.
+
+REGION: Can you confirm which regions make up over 40% of the demo sample? Relevant for the distribution strategy slide.
+
+Also — for the "morning_routine_occasion" variable: is this a consumption occasion (when they use skincare) or a product type? I see it in both the triggers table and the customer profile.
+
+Last thing: the student segment (employment_status = student) — what is the sample size? Want to make sure we are not over-reading a thin cell before making any claims.
+
+Thanks,
+Marcus
+NovaSkinX — Strategy & Consumer Insights
+marcus.r@example.com
