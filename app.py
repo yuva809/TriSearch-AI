@@ -1,9 +1,7 @@
 """
 app.py — Trisearch AI  |  Polished Streamlit UI
-Fixes:
-  - Answer renders inside the card (collected fully, then injected as HTML)
-  - Index ready badge removed
-  - st.status / Done line removed — replaced with a simple spinner only
+Fix: Example query buttons now work correctly.
+     Session state key pattern used — no value= conflict with key=.
 
 Author: Yuvanesh Raju
 """
@@ -90,32 +88,19 @@ html, body, [data-testid="stAppViewContainer"] {
 
 /* ── Answer card ── */
 .answer-card {
-    background: #13111f;
-    border: 1px solid #2a2740;
-    border-radius: 18px;
-    padding: 1.8rem 2rem;
-    margin: 1.8rem 0 1.2rem;
-    position: relative;
-    overflow: hidden;
+    background: #13111f; border: 1px solid #2a2740; border-radius: 18px;
+    padding: 1.8rem 2rem; margin: 1.8rem 0 1.2rem; position: relative; overflow: hidden;
 }
 .answer-card::before {
-    content: "";
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
+    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 2px;
     background: linear-gradient(90deg, #7c5cfc, #c084fc, #7c5cfc);
 }
 .answer-label {
-    font-family: 'Syne', sans-serif;
-    font-size: 0.72rem; font-weight: 700;
-    letter-spacing: 0.1em; text-transform: uppercase;
-    color: #7c5cfc; margin-bottom: 0.85rem;
+    font-family: 'Syne', sans-serif; font-size: 0.72rem; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase; color: #7c5cfc; margin-bottom: 0.85rem;
 }
 .answer-text {
-    font-size: 1rem;
-    line-height: 1.75;
-    color: #cbc8e0;
-    font-weight: 300;
+    font-size: 1rem; line-height: 1.75; color: #cbc8e0; font-weight: 300;
 }
 
 /* ── Sources ── */
@@ -135,7 +120,7 @@ html, body, [data-testid="stAppViewContainer"] {
     font-family: 'Syne', sans-serif; font-size: 0.85rem; font-weight: 600; color: #a89fd4;
     flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0;
 }
-.source-meta { font-size: 0.75rem; color: #4d4870; white-space: nowrap; }
+.source-meta  { font-size: 0.75rem; color: #4d4870; white-space: nowrap; }
 .source-score {
     font-size: 0.72rem; font-weight: 600; color: #7c5cfc;
     background: rgba(124,92,252,0.1); padding: 0.2rem 0.55rem;
@@ -164,40 +149,26 @@ html, body, [data-testid="stAppViewContainer"] {
     color: #f87171; font-size: 0.9rem; line-height: 1.6;
 }
 
-/* ── Example query buttons ── */
+/* ── Example buttons ── */
 .stButton > button {
-    background: #0e0d1a !important;
-    border: 1px dashed #2a2740 !important;
-    border-radius: 10px !important;
-    color: #4a4680 !important;
-    font-family: 'DM Sans', sans-serif !important;
-    font-size: 0.82rem !important;
-    font-weight: 400 !important;
-    padding: 0.55rem 0.9rem !important;
-    text-align: left !important;
-    width: 100% !important;
-    white-space: normal !important;
-    height: auto !important;
-    line-height: 1.4 !important;
+    background: #0e0d1a !important; border: 1px dashed #2a2740 !important;
+    border-radius: 10px !important; color: #4a4680 !important;
+    font-family: 'DM Sans', sans-serif !important; font-size: 0.82rem !important;
+    font-weight: 400 !important; padding: 0.55rem 0.9rem !important;
+    text-align: left !important; width: 100% !important;
+    white-space: normal !important; height: auto !important; line-height: 1.4 !important;
     transition: border-color 0.2s, color 0.2s, background 0.2s !important;
 }
 .stButton > button:hover {
-    border-color: #7c5cfc !important;
-    color: #a89fd4 !important;
-    background: #13111f !important;
+    border-color: #7c5cfc !important; color: #a89fd4 !important; background: #13111f !important;
 }
 .section-label {
-    font-family: 'Syne', sans-serif;
-    font-size: 0.68rem; font-weight: 700;
-    letter-spacing: 0.1em; text-transform: uppercase;
-    color: #3a3660; margin: 1.2rem 0 0.4rem;
+    font-family: 'Syne', sans-serif; font-size: 0.68rem; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase; color: #3a3660; margin: 1.2rem 0 0.4rem;
 }
 .empty-hint { text-align: center; padding: 2rem 0 0.5rem; }
 .empty-icon { font-size: 2rem; opacity: 0.2; margin-bottom: 0.5rem; }
 .empty-text { font-size: 0.88rem; color: #2e2b47; }
-
-/* ── Hide Streamlit spinner text and status widget ── */
-[data-testid="stStatusWidget"] { display: none !important; }
 
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: #09090f; }
@@ -207,13 +178,23 @@ html, body, [data-testid="stAppViewContainer"] {
 """, unsafe_allow_html=True)
 
 
-# ── Warm index once at startup ────────────────────────────────────
+# ── Warm index once silently ──────────────────────────────────────
 @st.cache_resource(show_spinner=False)
 def _warm_index(directory: str = "test_files"):
     return _get_index(directory)
 
-# Warm silently — no badge shown
 _warm_index()
+
+
+# ── Session state init ────────────────────────────────────────────
+# FIX: use a separate key "query_input" for the text_input widget
+# and "active_query" for what we actually run retrieval on.
+# Buttons write to st.session_state["query_input"] directly,
+# which pre-fills the widget on the next rerun without any key conflict.
+if "query_input" not in st.session_state:
+    st.session_state["query_input"] = ""
+if "active_query" not in st.session_state:
+    st.session_state["active_query"] = ""
 
 
 # ── Header ────────────────────────────────────────────────────────
@@ -232,19 +213,20 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
-# ── Search input with session state prefill ───────────────────────
-if "prefill" not in st.session_state:
-    st.session_state.prefill = ""
-
-query = st.text_input(
+# ── Search input ──────────────────────────────────────────────────
+# KEY FIX: text_input reads/writes st.session_state["query_input"] automatically
+# because we set key="query_input". No value= param needed — no conflict.
+st.text_input(
     label="query",
     placeholder="e.g.  What does sc_brand_awareness measure?",
-    value=st.session_state.prefill,
-    key="main_query",
+    key="query_input",
 )
 
+# The active query is whatever is currently in the input box
+query = st.session_state["query_input"].strip()
 
-# ── Badge helper ──────────────────────────────────────────────────
+
+# ── Helpers ───────────────────────────────────────────────────────
 def _badge(source: str) -> str:
     s = source.lower()
     if s.endswith(".pdf"):   return '<span class="source-badge badge-pdf">PDF</span>'
@@ -275,29 +257,36 @@ NARROW_QUERIES = [
 ]
 
 def _render_examples():
-    st.markdown('<div class="empty-hint"><div class="empty-icon">⟡</div><div class="empty-text">Type a question above — or click an example to get started</div></div>', unsafe_allow_html=True)
+    st.markdown(
+        '<div class="empty-hint">'
+        '<div class="empty-icon">⟡</div>'
+        '<div class="empty-text">Type a question above — or click an example to get started</div>'
+        '</div>',
+        unsafe_allow_html=True,
+    )
+
     st.markdown('<div class="section-label">◈ Broad — research questions</div>', unsafe_allow_html=True)
     cols = st.columns(2)
     for i, q in enumerate(BROAD_QUERIES):
+        # FIX: write directly into session_state["query_input"] — same key as the
+        # text_input widget — then rerun. Streamlit picks it up as the new input value.
         if cols[i % 2].button(q, key=f"broad_{i}"):
-            st.session_state.prefill = q
+            st.session_state["query_input"] = q
             st.rerun()
+
     st.markdown('<div class="section-label">◇ Narrow — variable lookups</div>', unsafe_allow_html=True)
     cols = st.columns(2)
     for i, q in enumerate(NARROW_QUERIES):
         if cols[i % 2].button(q, key=f"narrow_{i}"):
-            st.session_state.prefill = q
+            st.session_state["query_input"] = q
             st.rerun()
 
 
-# ── Main query flow ───────────────────────────────────────────────
+# ── Main flow ─────────────────────────────────────────────────────
 if query:
-    st.session_state.prefill = ""
-
     results      = []
     answer_parts = []
 
-    # Collect everything first with a simple spinner — no status widget
     with st.spinner("Searching and generating answer…"):
         for kind, value in answer_query_stream(query):
             if kind == "results":
@@ -308,14 +297,12 @@ if query:
     full_answer = "".join(answer_parts)
     is_error    = full_answer.startswith("⚠️")
 
-    # ── Answer card — answer text injected directly inside the card HTML
     if is_error:
         st.markdown(
             f'<div class="error-card">{full_answer}</div>',
             unsafe_allow_html=True,
         )
     else:
-        # Escape any HTML in the answer so it renders as safe text inside the card
         safe_answer = (
             full_answer
             .replace("&", "&amp;")
@@ -324,19 +311,18 @@ if query:
             .replace("\n", "<br>")
         )
         st.markdown(
-            f"""
-            <div class="answer-card">
-                <div class="answer-label">✦ Answer</div>
-                <div class="answer-text">{safe_answer}</div>
-            </div>
-            """,
+            f'<div class="answer-card">'
+            f'<div class="answer-label">✦ Answer</div>'
+            f'<div class="answer-text">{safe_answer}</div>'
+            f'</div>',
             unsafe_allow_html=True,
         )
 
-    # ── Sources ──
     if results:
         st.markdown(
-            f'<div class="sources-label">↳ {len(results)} source{"s" if len(results)!=1 else ""} retrieved</div>',
+            f'<div class="sources-label">'
+            f'↳ {len(results)} source{"s" if len(results)!=1 else ""} retrieved'
+            f'</div>',
             unsafe_allow_html=True,
         )
         for r in results:
@@ -345,17 +331,17 @@ if query:
             badge    = _badge(r["source"])
             meta_str = f'<span class="source-meta">{meta}</span>' if meta else ""
             safe_txt = r["text"].replace("<","&lt;").replace(">","&gt;")
-            st.markdown(f"""
-            <div class="source-card">
-                <div class="source-header">
-                    {badge}
-                    <span class="source-filename">{r["source"]}</span>
-                    {meta_str}
-                    <span class="source-score">{score:.3f}</span>
-                </div>
-                <div class="source-text">{safe_txt}</div>
-            </div>
-            """, unsafe_allow_html=True)
+            st.markdown(
+                f'<div class="source-card">'
+                f'<div class="source-header">{badge}'
+                f'<span class="source-filename">{r["source"]}</span>'
+                f'{meta_str}'
+                f'<span class="source-score">{score:.3f}</span>'
+                f'</div>'
+                f'<div class="source-text">{safe_txt}</div>'
+                f'</div>',
+                unsafe_allow_html=True,
+            )
 
 else:
     _render_examples()
